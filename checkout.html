@@ -6,16 +6,11 @@
   <title>إتمام الطلب | Sky Handcrafts</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      background-color: #f9f9f9;
-    }
-
     .checkout-form {
       display: flex;
       flex-direction: column;
       gap: 15px;
+      width: 100%;
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
@@ -27,6 +22,7 @@
     .checkout-form label {
       font-weight: bold;
       font-size: 16px;
+      margin-bottom: 5px;
     }
 
     .checkout-form input {
@@ -53,20 +49,11 @@
     }
 
     .cart-review {
-      max-width: 500px;
-      margin: 30px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .cart-review h3 {
-      margin-bottom: 10px;
+      margin-top: 30px;
     }
 
     .cart-review ul {
-      list-style: none;
+      list-style-type: none;
       padding: 0;
     }
 
@@ -89,7 +76,6 @@
 
     .main-content {
       padding: 20px;
-      text-align: center;
     }
 
     .footer {
@@ -114,6 +100,7 @@
   </div>
 
   <div class="main-content">
+    <h2></h2>
     <p>يرجى ملء التفاصيل التالية لإتمام عملية الشراء:</p>
 
     <!-- نموذج إتمام الطلب -->
@@ -154,14 +141,15 @@
       cartReview.appendChild(li);
     } else {
       cart.forEach(item => {
+        const hasCurrency = /ج(نيه|\.م)/.test(item.price);
+        const priceText = hasCurrency ? item.price : `${item.price} جنيه مصري`;
         const li = document.createElement("li");
-        const priceText = item.price.includes("جنيه") ? item.price : `${item.price} جنيه مصري`;
         li.textContent = `${item.name} - ${priceText}`;
         cartReview.appendChild(li);
       });
     }
 
-    // إرسال الطلب عبر Formspree
+    // إرسال النموذج إلى Formspree
     const checkoutForm = document.getElementById("checkout-form");
     checkoutForm.addEventListener("submit", async function(event) {
       event.preventDefault();
@@ -172,16 +160,18 @@
       const phone = formData.get("phone");
 
       const productsList = cart.map(item => {
-        const priceText = item.price.includes("جنيه") ? item.price : `${item.price} جنيه مصري`;
+        const hasCurrency = /ج(نيه|\.م)/.test(item.price);
+        const priceText = hasCurrency ? item.price : `${item.price} جنيه مصري`;
         return `${item.name} - ${priceText}`;
       }).join("\n");
 
       const message = `
-        الاسم: ${name}
-        العنوان: ${address}
-        رقم الهاتف: ${phone}
-        المنتجات المطلوبة:
-        ${productsList}
+الاسم: ${name}
+العنوان: ${address}
+رقم الهاتف: ${phone}
+
+المنتجات المطلوبة:
+${productsList}
       `;
 
       try {
@@ -197,11 +187,11 @@
         });
 
         if (response.ok) {
-          alert("تم إرسال الطلب بنجاح! سيتم التواصل معك قريباً. شكراً لثقتك بنا.");
+          alert("تم إرسال الطلب بنجاح! سيتم التواصل معك لإتمام الشراء. شكراً لك.");
           localStorage.removeItem('cart');
           window.location.href = "index.html";
         } else {
-          alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة لاحقاً.");
+          alert("حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة لاحقاً.");
         }
       } catch (error) {
         alert("تعذر إرسال الطلب. تحقق من اتصال الإنترنت.");
