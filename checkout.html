@@ -155,7 +155,8 @@
           window.location.href = "index.html"; // العودة إلى الصفحة الرئيسية
         }, function(error) {
           alert("حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.");
-          console.log("Error:", error);
+          console.log("Error:", error);  // طباعة التفاصيل الدقيقة للخطأ في وحدة التحكم
+          console.log(error.text);       // طباعة الرسالة النصية الخاصة بالخطأ
         });
     });
   </script>
