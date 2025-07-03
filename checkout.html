@@ -5,6 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>إتمام الطلب | Sky Handcrafts</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* تنسيق النموذج */
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f7f7f7;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-form label {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .checkout-form input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .checkout-form button {
+      padding: 12px;
+      font-size: 16px;
+      background-color: #2d87f0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .checkout-form button:hover {
+      background-color: #1f6ad3;
+    }
+
+    .cart-review {
+      margin-top: 30px;
+    }
+
+    .cart-review ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .cart-review li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -22,7 +80,8 @@
     <h2>تفاصيل الطلب</h2>
     <p>يرجى ملء التفاصيل التالية لإتمام عملية الشراء:</p>
 
-    <form id="checkout-form">
+    <!-- نموذج إتمام الطلب -->
+    <form id="checkout-form" class="checkout-form">
       <label for="name">الاسم:</label>
       <input type="text" id="name" name="name" required />
 
@@ -38,10 +97,12 @@
       <button type="submit">إتمام الطلب</button>
     </form>
 
-    <h3>مراجعة المنتجات في السلة:</h3>
-    <ul id="cart-review">
-      <!-- سيتم عرض محتويات السلة هنا -->
-    </ul>
+    <div class="cart-review">
+      <h3>مراجعة المنتجات في السلة:</h3>
+      <ul id="cart-review">
+        <!-- سيتم عرض محتويات السلة هنا -->
+      </ul>
+    </div>
   </div>
 
   <footer class="footer">
@@ -51,7 +112,7 @@
   <script>
     // جلب السلة من localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
+
     // عرض محتويات السلة في صفحة إتمام الطلب
     const cartReview = document.getElementById("cart-review");
     cart.forEach(item => {
