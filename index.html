@@ -26,7 +26,7 @@
       <h3>منتج 1</h3>
       <p>وصف مختصر للمنتج هنا.</p>
       <p class="price">100 ريال</p>
-      <button class="btn-add-to-cart" onclick="addToCart(1)">أضف إلى السلة</button>
+      <button class="btn-add-to-cart" onclick="addToCart(1, 'منتج 1', '100 ريال')">أضف إلى السلة</button>
     </div>
 
     <div class="product" data-id="2">
@@ -34,7 +34,7 @@
       <h3>منتج 2</h3>
       <p>وصف مختصر للمنتج هنا.</p>
       <p class="price">150 ريال</p>
-      <button class="btn-add-to-cart" onclick="addToCart(2)">أضف إلى السلة</button>
+      <button class="btn-add-to-cart" onclick="addToCart(2, 'منتج 2', '150 ريال')">أضف إلى السلة</button>
     </div>
 
     <div class="product" data-id="3">
@@ -42,7 +42,7 @@
       <h3>منتج 3</h3>
       <p>وصف مختصر للمنتج هنا.</p>
       <p class="price">200 ريال</p>
-      <button class="btn-add-to-cart" onclick="addToCart(3)">أضف إلى السلة</button>
+      <button class="btn-add-to-cart" onclick="addToCart(3, 'منتج 3', '200 ريال')">أضف إلى السلة</button>
     </div>
   </div>
 
@@ -61,7 +61,55 @@
   </footer>
 
   <script>
-    // JavaScript Logic...
+    // جلب السلة من localStorage أو إنشاء سلة جديدة إذا لم تكن موجودة
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartCount() {
+      document.getElementById("cart-count").innerText = cart.length;
+    }
+
+    function addToCart(id, name, price) {
+      cart.push({ id, name, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function showCart() {
+      const cartItemsList = document.getElementById("cart-items");
+      cartItemsList.innerHTML = '';
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - ${item.price}`;
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "حذف";
+        removeButton.onclick = () => removeFromCart(item.id);
+        li.appendChild(removeButton);
+        cartItemsList.appendChild(li);
+      });
+
+      document.getElementById("cart-modal").style.display = "flex";
+    }
+
+    function closeCart() {
+      document.getElementById("cart-modal").style.display = "none";
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showCart();
+      updateCartCount();
+    }
+
+    function clearCart() {
+      cart = [];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showCart();
+      updateCartCount();
+    }
+
+    document.getElementById("cart-icon").addEventListener("click", showCart);
+    window.onload = updateCartCount;
   </script>
 </body>
 </html>
