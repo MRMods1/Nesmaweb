@@ -142,7 +142,7 @@
     } else {
       cart.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.name} - ${item.price} ريال`;
+        li.textContent = `${item.name} - ${item.price} جنية مصري`;
         cartReview.appendChild(li);
       });
     }
@@ -157,7 +157,7 @@
       const address = formData.get("address");
       const phone = formData.get("phone");
 
-      const productsList = cart.map(item => `${item.name} - ${item.price} ريال`).join("\n");
+      const productsList = cart.map(item => `${item.name} - ${item.price} جنية مصري`).join("\n");
 
       const message = `
         الاسم: ${name}
