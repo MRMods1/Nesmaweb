@@ -6,11 +6,16 @@
   <title>إتمام الطلب | Sky Handcrafts</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f9f9f9;
+    }
+
     .checkout-form {
       display: flex;
       flex-direction: column;
       gap: 15px;
-      width: 100%;
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
@@ -22,7 +27,6 @@
     .checkout-form label {
       font-weight: bold;
       font-size: 16px;
-      margin-bottom: 5px;
     }
 
     .checkout-form input {
@@ -49,11 +53,20 @@
     }
 
     .cart-review {
-      margin-top: 30px;
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-review h3 {
+      margin-bottom: 10px;
     }
 
     .cart-review ul {
-      list-style-type: none;
+      list-style: none;
       padding: 0;
     }
 
@@ -76,6 +89,7 @@
 
     .main-content {
       padding: 20px;
+      text-align: center;
     }
 
     .footer {
@@ -100,7 +114,6 @@
   </div>
 
   <div class="main-content">
-    <h2></h2>
     <p>يرجى ملء التفاصيل التالية لإتمام عملية الشراء:</p>
 
     <!-- نموذج إتمام الطلب -->
@@ -133,7 +146,7 @@
     // جلب السلة من localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // عرض محتويات السلة في صفحة إتمام الطلب
+    // عرض محتويات السلة
     const cartReview = document.getElementById("cart-review");
     if (cart.length === 0) {
       const li = document.createElement("li");
@@ -142,12 +155,13 @@
     } else {
       cart.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.name} - ${item.price} جنية مصري`;
+        const priceText = item.price.includes("جنيه") ? item.price : `${item.price} جنيه مصري`;
+        li.textContent = `${item.name} - ${priceText}`;
         cartReview.appendChild(li);
       });
     }
 
-    // التعامل مع نموذج إتمام الطلب
+    // إرسال الطلب عبر Formspree
     const checkoutForm = document.getElementById("checkout-form");
     checkoutForm.addEventListener("submit", async function(event) {
       event.preventDefault();
@@ -157,7 +171,10 @@
       const address = formData.get("address");
       const phone = formData.get("phone");
 
-      const productsList = cart.map(item => `${item.name} - ${item.price} جنية مصري`).join("\n");
+      const productsList = cart.map(item => {
+        const priceText = item.price.includes("جنيه") ? item.price : `${item.price} جنيه مصري`;
+        return `${item.name} - ${priceText}`;
+      }).join("\n");
 
       const message = `
         الاسم: ${name}
@@ -180,11 +197,11 @@
         });
 
         if (response.ok) {
-          alert("تم إرسال الطلب بنجاح!سوف يتم التواصل معك لاتمام الشراء شكراً لك.");
+          alert("تم إرسال الطلب بنجاح! سيتم التواصل معك قريباً. شكراً لثقتك بنا.");
           localStorage.removeItem('cart');
           window.location.href = "index.html";
         } else {
-          alert("حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة لاحقاً.");
+          alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة لاحقاً.");
         }
       } catch (error) {
         alert("تعذر إرسال الطلب. تحقق من اتصال الإنترنت.");
