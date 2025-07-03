@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إتمام الطلب | Sky Handcrafts</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>إتمام الطلب | Sky Handcrafts</h1>
+  </header>
+
+  <div class="navbar">
+    <a href="index.html">الرئيسية</a>
+    <a href="products.html">منتجات</a>
+    <a href="offers.html">عروض</a>
+    <a href="contact.html">اتصل بنا</a>
+  </div>
+
+  <div class="main-content">
+    <h2>تفاصيل الطلب</h2>
+    <p>يرجى ملء التفاصيل التالية لإتمام عملية الشراء:</p>
+
+    <form id="checkout-form">
+      <label for="name">الاسم:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="address">العنوان:</label>
+      <input type="text" id="address" name="address" required />
+
+      <label for="phone">رقم الهاتف:</label>
+      <input type="text" id="phone" name="phone" required />
+
+      <label for="email">البريد الإلكتروني:</label>
+      <input type="email" id="email" name="email" required />
+
+      <button type="submit">إتمام الطلب</button>
+    </form>
+
+    <h3>مراجعة المنتجات في السلة:</h3>
+    <ul id="cart-review">
+      <!-- سيتم عرض محتويات السلة هنا -->
+    </ul>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 Sky Handcrafts | جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    // جلب السلة من localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // عرض محتويات السلة في صفحة إتمام الطلب
+    const cartReview = document.getElementById("cart-review");
+    cart.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} - ${item.price}`;
+      cartReview.appendChild(li);
+    });
+
+    // التعامل مع نموذج إتمام الطلب
+    const checkoutForm = document.getElementById("checkout-form");
+    checkoutForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(checkoutForm);
+      const name = formData.get("name");
+      const address = formData.get("address");
+      const phone = formData.get("phone");
+      const email = formData.get("email");
+
+      alert(`تم إتمام طلبك بنجاح!
+      الاسم: ${name}
+      العنوان: ${address}
+      الهاتف: ${phone}
+      البريد الإلكتروني: ${email}`);
+      
+      // مسح السلة بعد الطلب
+      localStorage.removeItem('cart');
+      window.location.href = "index.html"; // العودة إلى الصفحة الرئيسية
+    });
+  </script>
+</body>
+</html>
