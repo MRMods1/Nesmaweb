@@ -4,7 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>متجر إلكتروني بسيط</title>
-  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      animation: fadeIn 1s ease-in;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product {
+      background: white;
+      margin: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      animation: slideUp 0.8s ease;
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    #cart-icon {
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    #cart-count {
+      background-color: red;
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 50%;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -37,6 +125,56 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function addToCart(productId) {
+      cart.push(productId);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      document.getElementById("cart-count").innerText = cart.length;
+    }
+
+    // المنتجات الوهمية (مثال)
+    const products = {
+      1: { name: "منتج 1", price: 100 },
+      2: { name: "منتج 2", price: 150 }
+    };
+
+    function showCart() {
+      const modal = document.getElementById("cart-modal");
+      const itemsContainer = document.getElementById("cart-items");
+      itemsContainer.innerHTML = "";
+
+      const counts = {};
+      cart.forEach(id => counts[id] = (counts[id] || 0) + 1);
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = "<li>السلة فارغة.</li>";
+      } else {
+        for (let id in counts) {
+          const product = products[id];
+          const li = document.createElement("li");
+          li.innerText = `${product.name} - ${counts[id]} × ${product.price} ريال = ${counts[id] * product.price} ريال`;
+          itemsContainer.appendChild(li);
+        }
+      }
+
+      modal.classList.remove("hidden");
+    }
+
+    function closeCart() {
+      document.getElementById("cart-modal").classList.add("hidden");
+    }
+
+    // ربط الضغط على الأيقونة
+    document.getElementById("cart-icon").addEventListener("click", showCart);
+
+    // عند التحميل
+    window.onload = updateCartCount;
+  </script>
 </body>
 </html>
