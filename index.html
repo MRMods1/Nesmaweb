@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>متجر إلكتروني بسيط</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>🛒 متجرنا</h1>
+    <div id="cart-icon">🛍️ <span id="cart-count">0</span></div>
+  </header>
+
+  <main>
+    <section class="product" data-id="1">
+      <img src="https://via.placeholder.com/150" alt="منتج 1" />
+      <h3>منتج 1</h3>
+      <p>السعر: 100 ريال</p>
+      <button onclick="addToCart(1)">أضف إلى السلة</button>
+    </section>
+
+    <section class="product" data-id="2">
+      <img src="https://via.placeholder.com/150" alt="منتج 2" />
+      <h3>منتج 2</h3>
+      <p>السعر: 150 ريال</p>
+      <button onclick="addToCart(2)">أضف إلى السلة</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
