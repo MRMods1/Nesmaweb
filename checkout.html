@@ -6,7 +6,6 @@
   <title>إتمام الطلب | Sky Handcrafts</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* تنسيق النموذج */
     .checkout-form {
       display: flex;
       flex-direction: column;
@@ -115,9 +114,6 @@
       <label for="phone">رقم الهاتف:</label>
       <input type="text" id="phone" name="phone" required pattern="[0-9]{9,15}" title="الرجاء إدخال رقم هاتف صحيح" />
 
-      <label for="email">البريد الإلكتروني:</label>
-      <input type="email" id="email" name="email" required />
-
       <button type="submit">إتمام الطلب</button>
     </form>
 
@@ -160,7 +156,6 @@
       const name = formData.get("name");
       const address = formData.get("address");
       const phone = formData.get("phone");
-      const email = formData.get("email");
 
       const productsList = cart.map(item => `${item.name} - ${item.price} ريال`).join("\n");
 
@@ -168,7 +163,6 @@
         الاسم: ${name}
         العنوان: ${address}
         رقم الهاتف: ${phone}
-        البريد الإلكتروني: ${email}
         المنتجات المطلوبة:
         ${productsList}
       `;
@@ -181,7 +175,6 @@
           },
           body: JSON.stringify({
             name,
-            email,
             message
           })
         });
