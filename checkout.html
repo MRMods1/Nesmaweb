@@ -109,7 +109,11 @@
     <p>&copy; 2025 Sky Handcrafts | جميع الحقوق محفوظة</p>
   </footer>
 
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
+    // تهيئة EmailJS باستخدام UserID الخاص بك
+    emailjs.init("YOUR_USER_ID");  // استبدل بـ User ID الخاص بك
+
     // جلب السلة من localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -132,15 +136,27 @@
       const phone = formData.get("phone");
       const email = formData.get("email");
 
-      alert(`تم إتمام طلبك بنجاح!
-      الاسم: ${name}
-      العنوان: ${address}
-      الهاتف: ${phone}
-      البريد الإلكتروني: ${email}`);
-      
-      // مسح السلة بعد الطلب
-      localStorage.removeItem('cart');
-      window.location.href = "index.html"; // العودة إلى الصفحة الرئيسية
+      // إنشاء الكائن الذي يحتوي على بيانات النموذج
+      const orderData = {
+        name: name,
+        address: address,
+        phone: phone,
+        email: email,
+        products: cart.map(item => `${item.name} - ${item.price}`).join(", ")
+      };
+
+      // إرسال البيانات عبر EmailJS
+      emailjs.send("service_yyolkmb", "YOUR_TEMPLATE_ID", orderData)  // استبدل بـ Template ID الخاص بك
+        .then(function(response) {
+          alert("تم إتمام طلبك بنجاح. سيتم إرسال تفاصيل الطلب عبر البريد الإلكتروني.");
+          console.log("Success:", response);
+          // مسح السلة بعد الطلب
+          localStorage.removeItem('cart');
+          window.location.href = "index.html"; // العودة إلى الصفحة الرئيسية
+        }, function(error) {
+          alert("حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.");
+          console.log("Error:", error);
+        });
     });
   </script>
 </body>
