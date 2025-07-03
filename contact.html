@@ -9,6 +9,7 @@
     body {
       font-family: Arial, sans-serif;
       direction: rtl;
+      background-color: #f9f9f9;
     }
 
     .navbar {
@@ -25,13 +26,18 @@
 
     .main-content {
       padding: 20px;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto;
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      font-size: 18px;
-      background-color: #f7f7f7;
+      background-color: #fff;
       border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .contact-info {
+      margin-top: 20px;
+      line-height: 2;
+      font-size: 18px;
     }
 
     .footer {
@@ -39,6 +45,7 @@
       margin-top: 40px;
       padding: 20px;
       background-color: #eee;
+      color: #333;
     }
   </style>
 </head>
@@ -54,9 +61,11 @@
   </div>
 
   <div class="main-content">
-    <h2>للتواصل معنا:</h2>
-    <p>📧 البريد الإلكتروني: <strong>info@skyhandcrafts.com</strong></p>
-    <p>📞 رقم الهاتف: <strong>01065131743</strong></p>
+    <h2>للتواصل معنا</h2>
+    <div class="contact-info">
+      <p>📧 البريد الإلكتروني:<br><strong>info@skyhandcrafts.com</strong></p>
+      <p>📞 رقم الهاتف:<br><strong>01065131743</strong></p>
+    </div>
   </div>
 
   <footer class="footer">
