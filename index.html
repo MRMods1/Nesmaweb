@@ -53,6 +53,7 @@
       <ul id="cart-items" class="product-list"></ul>
       <button class="clear-btn" onclick="clearCart()">حذف جميع المنتجات</button>
       <button onclick="closeCart()">إغلاق</button>
+      <button class="checkout-btn" onclick="checkout()">إتمام الطلب</button>
     </div>
   </div>
 
@@ -106,6 +107,15 @@
       localStorage.setItem("cart", JSON.stringify(cart));
       showCart();
       updateCartCount();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("لا توجد منتجات في السلة لإتمام الطلب.");
+        return;
+      }
+
+      window.location.href = "checkout.html"; // التوجيه إلى صفحة إتمام الطلب
     }
 
     document.getElementById("cart-icon").addEventListener("click", showCart);
