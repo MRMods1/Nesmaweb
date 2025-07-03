@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>🛒 متجرنا</h1>
-    <div id="cart-icon">🛍️ <span id="cart-count">0</span></div>
+    <div id="cart-icon" style="cursor: pointer;">🛍️ <span id="cart-count">0</span></div>
   </header>
 
   <main>
@@ -27,6 +27,15 @@
       <button onclick="addToCart(2)">أضف إلى السلة</button>
     </section>
   </main>
+
+  <!-- نافذة السلة -->
+  <div id="cart-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>🛍️ محتوى السلة</h2>
+      <ul id="cart-items"></ul>
+      <button onclick="closeCart()">إغلاق</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
